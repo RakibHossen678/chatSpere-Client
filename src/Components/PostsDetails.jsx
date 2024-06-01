@@ -3,9 +3,9 @@ import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { BiDownvote, BiUpvote } from "react-icons/bi";
-import { FiShare } from "react-icons/fi";
 import useAuth from "../Hooks/useAuth";
 import toast from "react-hot-toast";
+import Share from "./Share";
 
 const PostsDetails = () => {
   const { user } = useAuth();
@@ -87,12 +87,12 @@ const PostsDetails = () => {
       <div className="w-16 absolute top-28 left-10 flex justify-center m-auto  h-16 border-4 rounded-full animate-spin border-[#9ef01a]"></div>
     );
   return (
-    <div className="pt-28 w-9/12 mx-auto mb-10">
+    <div className="pt-28 lg:w-9/12 w-10/12 mx-auto mb-10">
       <div className="relative">
         <h1 className="flex items-center space-x-2">
           <Link
             to="/"
-            className=" absolute -left-10 bg-slate-100 px-3 rounded-full py-3"
+            className=" absolute lg:-left-10 -left-8 bg-slate-100 px-3 rounded-full py-3"
           >
             <FaArrowLeftLong />
           </Link>
@@ -135,14 +135,11 @@ const PostsDetails = () => {
               <BiDownvote />
             </span>
           </button>
-          <a className="flex items-center border-2 px-2 rounded-full  space-x-1">
-            <span>
-              <FiShare />
-            </span>
-            <span>Share</span>
-          </a>
+          <div>
+            <Share id={post._id}></Share>
+          </div>
         </div>
-        <div className="w-7/12 my-4">
+        <div className="lg:w-7/12 my-4">
           <form
             onSubmit={(e) => handleAddComment(e, post?.title, user?.email)}
             className="flex items-center space-x-3"
