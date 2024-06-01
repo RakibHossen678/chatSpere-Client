@@ -1,8 +1,10 @@
 import { IoMdNotificationsOutline } from "react-icons/io";
 import logo from "../../assets/forumLogo.png";
 import { Link, NavLink } from "react-router-dom";
+import useAuth from "../../Hooks/useAuth";
 
 const Navbar = () => {
+  const { user,logOut } = useAuth();
   const navLinks = (
     <>
       <li>
@@ -52,42 +54,50 @@ const Navbar = () => {
         <div className="navbar-center "></div>
         <div className="navbar-end ">
           <div className="hidden lg:flex">
-            <ul className="space-x-7 menu-horizontal px-1 text-white">{navLinks}</ul>
+            <ul className="space-x-7 menu-horizontal px-1 text-white">
+              {navLinks}
+            </ul>
           </div>
           <div>
             <IoMdNotificationsOutline className="mx-4 text-white" size={28} />
           </div>
-          <Link to='/login' className="bg-[#70e000] hover:bg-[#9ef01a] text-white px-6 py-2 font-medium rounded-full">
-            Join US
-          </Link>
-          {/* <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar"
-            >
-              <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                />
+          {user ? (
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+              >
+                <div className="w-10 rounded-full">
+                  <img
+                    alt="Tailwind CSS Navbar component"
+                    src={user?.photoURL}
+                  />
+                </div>
               </div>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <a className="justify-between">{user.displayName}</a>
+                </li>
+                <li>
+                  <a>Dashboard</a>
+                </li>
+                <li>
+                  <button onClick={()=>logOut()}>Logout</button>
+                </li>
+              </ul>
             </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+          ) : (
+            <Link
+              to="/login"
+              className="bg-[#70e000] hover:bg-[#9ef01a] text-white px-6 py-2 font-medium rounded-full"
             >
-              <li>
-                <a className="justify-between">Rakib</a>
-              </li>
-              <li>
-                <a>Dashboard</a>
-              </li>
-              <li>
-                <a>Logout</a>
-              </li>
-            </ul>
-          </div> */}
+              Join US
+            </Link>
+          )}
         </div>
       </div>
     </div>

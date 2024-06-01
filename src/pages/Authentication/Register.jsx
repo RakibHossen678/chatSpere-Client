@@ -1,7 +1,44 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import useAuth from "../../Hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Register = () => {
+  const { updateUserProfile, createUser } = useAuth();
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    const { name, email, pass, image } = data;
+    const imageFile = image[0];
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    try {
+      const { data } = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_IMAGE_HOSTING_KEY
+        }`,
+        formData
+      );
+      console.log(data.data.display_url);
+
+      //user register
+      const result = await createUser(email, pass);
+      console.log(result);
+      await updateUserProfile(name, data.data.display_url);
+      navigate("/");
+      toast.success("Sign up Successful");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="flex justify-center max-w-lg mx-auto items-center min-h-screen">
       <div className="flex flex-col w-full  p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
@@ -10,6 +47,7 @@ const Register = () => {
           <p className="text-sm text-gray-400">Welcome to ChatSphere</p>
         </div>
         <form
+          onSubmit={handleSubmit(onSubmit)}
           noValidate=""
           action=""
           className="space-y-6 ng-untouched ng-pristine ng-valid"
@@ -23,10 +61,14 @@ const Register = () => {
                 type="text"
                 name="name"
                 id="name"
+                {...register("name", { required: true })}
                 placeholder="Enter Your Name Here"
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#70e000] bg-gray-200 text-gray-900"
                 data-temp-mail-org="0"
               />
+              {errors.name && (
+                <span className="text-red-500">This field is required</span>
+              )}
             </div>
             <div>
               <label htmlFor="image" className="block mb-2 text-sm">
@@ -35,6 +77,7 @@ const Register = () => {
               <input
                 required
                 type="file"
+                {...register("image", { required: true })}
                 id="image"
                 name="image"
                 accept="image/*"
@@ -48,11 +91,12 @@ const Register = () => {
                 type="email"
                 name="email"
                 id="email"
-                required
                 placeholder="Enter Your Email Here"
+                {...register("email", { required: true })}
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#70e000] bg-gray-200 text-gray-900"
                 data-temp-mail-org="0"
               />
+              {errors.email && <span>This field is required</span>}
             </div>
             <div>
               <div className="flex justify-between">
@@ -67,8 +111,10 @@ const Register = () => {
                 id="password"
                 required
                 placeholder="*******"
+                {...register("pass", { required: true })}
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#70e000] bg-gray-200 text-gray-900"
               />
+              {errors.exampleRequired && <span>This field is required</span>}
             </div>
           </div>
 

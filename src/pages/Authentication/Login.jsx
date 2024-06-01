@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
+  
   return (
     <div className="flex justify-center items-center min-h-screen max-w-lg  mx-auto">
       <div className="flex w-full flex-col  p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
