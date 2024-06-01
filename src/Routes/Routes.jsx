@@ -17,12 +17,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/post/:id",
-        element: (
-          <PrivateRoute>
-            <PostsDetails></PostsDetails>
-          </PrivateRoute>
-        ),
-        // loader:({params})=>fetch(`http://localhost:5000/post/${params?.id}`)
+        element: <PostsDetails></PostsDetails>,
       },
     ],
   },
