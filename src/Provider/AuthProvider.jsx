@@ -37,17 +37,13 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
-  const signInWithGithub = () => {
-    setLoading(true);
-    return signInWithPopup(auth, githubProvider);
-  };
+  
 
   const logOut = async () => {
     setLoading(true);
-    const { data } = await axios("https://assignment11-sand-six.vercel.app/logout", {
-      withCredentials: true,
-    });
-    console.log(data);
+    // const { data } = await axios("http://localhost:5000/logout", {
+    //   withCredentials: true,
+    // });
     return signOut(auth);
   };
 
@@ -79,7 +75,6 @@ const AuthProvider = ({ children }) => {
     signInWithGoogle,
     logOut,
     updateUserProfile,
-    signInWithGithub,
   };
 
   return (

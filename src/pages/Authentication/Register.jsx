@@ -27,7 +27,6 @@ const Register = () => {
         }`,
         formData
       );
-      console.log(data.data.display_url);
 
       //user register
       const result = await createUser(email, pass);
