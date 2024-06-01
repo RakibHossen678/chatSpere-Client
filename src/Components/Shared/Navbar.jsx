@@ -1,6 +1,6 @@
 import { IoMdNotificationsOutline } from "react-icons/io";
 import logo from "../../assets/forumLogo.png";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const navLinks = (
@@ -57,9 +57,9 @@ const Navbar = () => {
           <div>
             <IoMdNotificationsOutline className="mx-4 text-white" size={28} />
           </div>
-          <a className="bg-[#70e000] hover:bg-[#9ef01a] text-white px-6 py-2 font-medium rounded-full">
+          <Link to='/login' className="bg-[#70e000] hover:bg-[#9ef01a] text-white px-6 py-2 font-medium rounded-full">
             Join US
-          </a>
+          </Link>
           {/* <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
