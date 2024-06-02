@@ -4,6 +4,8 @@ import useAuth from "../../Hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const categories = [
   "MERN",
@@ -23,30 +25,37 @@ const options = categories.map((category) => ({
 }));
 
 const Addpost = () => {
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
-const axiosSecure=useAxiosSecure()
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const [selectedOption, setSelectedOption] = useState(null);
 
-  const {data:badge={},isLoading}=useQuery({
-    queryKey:['badge'],
-    queryFn:async()=>{
-      const {data}=await axiosSecure(`/badge/${user?.email}`)
-      return data
-    }
-    
-  })
-  console.log(badge.badge)
+  const { data: badge = {}, isLoading } = useQuery({
+    queryKey: ["badge"],
+    queryFn: async () => {
+      if (user) {
+        const { data } = await axiosSecure(`/badge/${user?.email}`);
+        return data;
+      }
+    },
+  });
 
-// const {mutateAsync}=  useMutation({
-//     mutationKey:['post'],
-//     mutationFn:async()=>{
-//       const {data}=
-//     }
-//   })
+  const userBadge = badge.badge?.badge;
+  const postCount = badge?.postCount;
 
-  
-  const onSubmit = (data) => {
+  const { mutateAsync } = useMutation({
+    mutationKey: ["post"],
+    mutationFn: async (postData) => {
+      const { data } = await axiosSecure.post("/post", postData);
+      console.log(data);
+    },
+    onSuccess: () => {
+      toast.success("Post Added Successfully");
+    },
+  });
+
+  const onSubmit = async (data) => {
     if (selectedOption) {
       const tag = selectedOption.value;
       console.log(data);
@@ -64,11 +73,15 @@ const axiosSecure=useAxiosSecure()
         time: new Date(),
       };
       console.table(postData);
-
+      if (userBadge === "bronze" && postCount > 5) {
+        toast.error('Subscribe for more posts')
+        return navigate("/payment");
+      }
+      await mutateAsync(postData);
     }
   };
-  if(isLoading){
-    <p>Loading....</p>
+  if (isLoading) {
+    <p>Loading....</p>;
   }
   return (
     <div className="lg:py-48 py-10 lg:ml-48">
