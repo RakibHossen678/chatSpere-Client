@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/forumLogo.png";
-import { AiOutlineBarChart } from "react-icons/ai";
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
@@ -38,7 +37,7 @@ const Sidebar = () => {
       </div>
       <div
         className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-green-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
-          isActive && "-translate-x-full"
+          !isActive && "-translate-x-full"
         }  md:translate-x-0  transition duration-200 ease-in-out`}
       >
         <div className="h-screen  p-3 space-y-2 w-60 bg-green-100  ">
@@ -55,32 +54,23 @@ const Sidebar = () => {
           <div className="divide-y divide-gray-700">
             <ul className="pt-2 pb-4 space-y-1 text-sm">
               <li>
-                <a
-                  rel="noopener noreferrer"
-                  href="#"
-                  className="flex items-center p-2 space-x-3 rounded-md"
-                >
+                <a className="flex items-center p-2 space-x-3 rounded-md">
                   <CgProfile size={24}></CgProfile>
                   <span>My Profile</span>
                 </a>
               </li>
               <li>
-                <a
-                  rel="noopener noreferrer"
-                  href="#"
+                <Link
+                  to="addPost"
                   className="flex items-center p-2 space-x-3 rounded-md"
                 >
-                    <IoIosAddCircle size={24} />
+                  <IoIosAddCircle size={24} />
                   <span>Add Post</span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  rel="noopener noreferrer"
-                  href="#"
-                  className="flex items-center p-2 space-x-3 rounded-md"
-                >
-                    <IoDocumentTextOutline size={24} />
+                <a className="flex items-center p-2 space-x-3 rounded-md">
+                  <IoDocumentTextOutline size={24} />
                   <span>My Posts</span>
                 </a>
               </li>

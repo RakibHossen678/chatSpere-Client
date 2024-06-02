@@ -4,7 +4,7 @@ import Sidebar from "../../Components/Dashboard/Sidebar";
 const Dashboard = () => {
   return (
     <div>
-      <div>
+      <div className="min-w-[350px]">
         <Sidebar></Sidebar>
       </div>
       <div>

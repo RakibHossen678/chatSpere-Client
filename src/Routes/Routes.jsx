@@ -9,6 +9,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import MyProfile from "../pages/Dashboard/MyProfile";
 import Addpost from "../pages/Dashboard/Addpost";
 import MyPost from "../pages/Dashboard/MyPost";
+import Payment from "../pages/Payment";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,14 @@ const router = createBrowserRouter([
       {
         path: "/post/:id",
         element: <PostsDetails></PostsDetails>,
+      },
+      {
+        path: "/payment",
+        element: (
+          <PrivateRoute>
+            <Payment></Payment>
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -38,12 +47,20 @@ const router = createBrowserRouter([
     element: <Dashboard></Dashboard>,
     children: [
       {
-        path: "/dashboard",
-        element: <MyProfile></MyProfile>,
+        index: true,
+        element: (
+          <PrivateRoute>
+            <MyProfile></MyProfile>,
+          </PrivateRoute>
+        ),
       },
       {
         path: "addPost",
-        element: <Addpost></Addpost>,
+        element: (
+          <PrivateRoute>
+            <Addpost></Addpost>
+          </PrivateRoute>
+        ),
       },
       {
         path: "myPost",
