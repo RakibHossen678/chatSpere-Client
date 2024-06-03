@@ -1,17 +1,49 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { axiosSecure } from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
 import { MdDeleteForever } from "react-icons/md";
+import Swal from "sweetalert2";
 
 const MyPost = () => {
   const { user } = useAuth();
-  const { data: posts = [] } = useQuery({
+  const { data: posts = [], refetch } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/posts/${user?.email}`);
+      console.log(data);
       return data;
     },
   });
+  const { mutateAsync } = useMutation({
+    mutationFn: async (id) => {
+      const { data } = await axiosSecure.delete(`/post/delete/${id}`);
+      console.log(data);
+    },
+    onSuccess: () => {
+      Swal.fire({
+        title: "Deleted!",
+        text: "Your file has been deleted.",
+        icon: "success",
+      });
+      refetch();
+    },
+  });
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        console.log(id);
+        await mutateAsync(id);
+      }
+    });
+  };
   return (
     <div className="my-10">
       <div className="text-center text-3xl font-semibold my-7">
@@ -31,16 +63,23 @@ const MyPost = () => {
               </tr>
             </thead>
             <tbody>
-              {posts.map((post,idx) => (
+              {posts.map((post, idx) => (
                 <tr key={idx} className="">
-                  <th>{idx+1}</th>
+                  <th>{idx + 1}</th>
                   <td>{post.title}</td>
-                  <td>{post.upVote-post.downVote}</td>
+                  <td>{post.upVote - post.downVote}</td>
                   <td>
-                    <button className="bg-[#1af041] px-3 py-1 rounded-md text-white">Comment</button>
+                    <button className="bg-[#1af041] px-3 py-1 rounded-md text-white">
+                      Comment
+                    </button>
                   </td>
                   <td className=" ">
-                  <MdDeleteForever className="ml-3 text-red-500" size={24} />
+                    <button onClick={() => handleDelete(post._id)}>
+                      <MdDeleteForever
+                        className="ml-3 text-red-500"
+                        size={24}
+                      />
+                    </button>
                   </td>
                 </tr>
               ))}
