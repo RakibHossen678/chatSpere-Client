@@ -6,11 +6,14 @@ import Register from "../pages/Authentication/Register";
 import PostsDetails from "../Components/PostsDetails";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../pages/Dashboard/Dashboard";
-import MyProfile from "../pages/Dashboard/MyProfile";
 import Addpost from "../pages/Dashboard/Addpost";
 import MyPost from "../pages/Dashboard/MyPost";
 import Payment from "../pages/Payment";
 import Comments from "../Components/Dashboard/Comments";
+import Profile from "../pages/Dashboard/Profile";
+import ManageUsers from "../pages/Dashboard/ManageUsers";
+import ReportedComments from "../pages/Dashboard/ReportedComments";
+import Announcement from "../pages/Dashboard/Announcement";
 
 const router = createBrowserRouter([
   {
@@ -34,12 +37,13 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path:'comments/:postId',
-        element:<PrivateRoute>
-          <Comments></Comments>
-        </PrivateRoute>
-
-      }
+        path: "comments/:postId",
+        element: (
+          <PrivateRoute>
+            <Comments></Comments>
+          </PrivateRoute>
+        ),
+      },
     ],
   },
   {
@@ -62,7 +66,7 @@ const router = createBrowserRouter([
         index: true,
         element: (
           <PrivateRoute>
-            <MyProfile></MyProfile>,
+            <Profile></Profile>
           </PrivateRoute>
         ),
       },
@@ -82,7 +86,30 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      
+      {
+        path: "manage-users",
+        element: (
+          <PrivateRoute>
+            <ManageUsers></ManageUsers>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "reported-comment",
+        element: (
+          <PrivateRoute>
+            <ReportedComments></ReportedComments>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "announcement",
+        element: (
+          <PrivateRoute>
+            <Announcement></Announcement>
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 ]);

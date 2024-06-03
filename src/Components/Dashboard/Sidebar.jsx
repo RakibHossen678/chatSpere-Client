@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/forumLogo.png";
 import { useState } from "react";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaUsersCog } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { IoIosAddCircle } from "react-icons/io";
 import { IoDocumentTextOutline } from "react-icons/io5";
@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
 import { MdReport } from "react-icons/md";
+import { GrAnnounce } from "react-icons/gr";
 const Sidebar = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
@@ -109,16 +110,16 @@ const Sidebar = () => {
                 </li>
                 <li>
                   <NavLink
-                    to="addPost"
+                    to="manage-users"
                     className="flex items-center p-2 space-x-3 rounded-md"
                   >
-                    <IoIosAddCircle size={24} />
+                    <FaUsersCog size={24} />
                     <span>Manage Users</span>
                   </NavLink>
                 </li>
                 <li>
                   <Link
-                    to="myPost"
+                    to="reported-comment"
                     className="flex items-center p-2 space-x-3 rounded-md"
                   >
                     <MdReport size={24} />
@@ -127,10 +128,10 @@ const Sidebar = () => {
                 </li>
                 <li>
                   <Link
-                    to="myPost"
+                    to="announcement"
                     className="flex items-center p-2 space-x-3 rounded-md"
                   >
-                    <IoDocumentTextOutline size={24} />
+                    <GrAnnounce size={24} />
                     <span>Make Announcement</span>
                   </Link>
                 </li>
