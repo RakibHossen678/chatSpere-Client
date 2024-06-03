@@ -72,10 +72,10 @@ const Sidebar = () => {
                 </NavLink>
               </li>
               <li>
-                <a className="flex items-center p-2 space-x-3 rounded-md">
+                <Link to='myPost' className="flex items-center p-2 space-x-3 rounded-md">
                   <IoDocumentTextOutline size={24} />
                   <span>My Posts</span>
-                </a>
+                </Link>
               </li>
             </ul>
             <ul className="pt-4 pb-2 space-y-1  text-sm">

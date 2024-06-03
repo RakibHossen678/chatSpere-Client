@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import PostCard from "../../Components/PostCard";
 
 const MyProfile = () => {
@@ -15,11 +14,10 @@ const MyProfile = () => {
     },
   });
   console.log(profile);
-  const axiosPublic = useAxiosPublic();
   const { data: posts = [] } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
-      const { data } = await axiosPublic.get(`/posts/${user?.email}`);
+      const { data } = await axiosSecure.get(`/posts/${user?.email}`);
       return data;
     },
   });
@@ -55,7 +53,7 @@ const MyProfile = () => {
         <div className="text-center">
           <h2 className="text-3xl font-semibold py-4">My Recent Activity</h2>
         </div>
-        <div>
+        <div className="ml-28">
           {posts.slice(0, 3).map((post, idx) => (
             <PostCard key={idx} post={post}></PostCard>
           ))}
