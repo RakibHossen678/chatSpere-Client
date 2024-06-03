@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/forumLogo.png";
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
@@ -54,19 +54,22 @@ const Sidebar = () => {
           <div className="divide-y divide-gray-700">
             <ul className="pt-2 pb-4 space-y-1 text-sm">
               <li>
-                <a className="flex items-center p-2 space-x-3 rounded-md">
+                <NavLink
+                  to="/dashboard"
+                  className="flex items-center p-2 space-x-3 rounded-md"
+                >
                   <CgProfile size={24}></CgProfile>
                   <span>My Profile</span>
-                </a>
+                </NavLink>
               </li>
               <li>
-                <Link
+                <NavLink
                   to="addPost"
                   className="flex items-center p-2 space-x-3 rounded-md"
                 >
                   <IoIosAddCircle size={24} />
                   <span>Add Post</span>
-                </Link>
+                </NavLink>
               </li>
               <li>
                 <a className="flex items-center p-2 space-x-3 rounded-md">

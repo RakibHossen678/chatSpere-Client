@@ -7,7 +7,7 @@ const Dashboard = () => {
       <div className="min-w-[350px]">
         <Sidebar></Sidebar>
       </div>
-      <div>
+      <div className="">
         <Outlet></Outlet>
       </div>
     </div>

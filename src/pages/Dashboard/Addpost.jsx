@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Select from "react-select";
 import useAuth from "../../Hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import { useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import toast from "react-hot-toast";
 
 const categories = [
@@ -23,9 +23,8 @@ const options = categories.map((category) => ({
   value: category,
   label: category,
 }));
-
 const Addpost = () => {
-  const navigate = useNavigate();
+  const [member, setMember] = useState(true);
   const { register, handleSubmit } = useForm();
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
@@ -40,7 +39,7 @@ const Addpost = () => {
       }
     },
   });
-
+console.log(user.email)
   const userBadge = badge.badge?.badge;
   const postCount = badge?.postCount;
 
@@ -72,104 +71,152 @@ const Addpost = () => {
         downVote: 0,
         time: new Date(),
       };
-      console.table(postData);
-      if (userBadge === "bronze" && postCount > 5) {
-        toast.error('Subscribe for more posts')
-        return navigate("/payment");
-      }
+      
+
       await mutateAsync(postData);
     }
   };
   if (isLoading) {
     <p>Loading....</p>;
   }
+  useEffect(() => {
+    if (userBadge === "bronze" && postCount > 5) {
+      setMember(false);
+    }
+  }, [userBadge, postCount]);
+  console.log(member,userBadge, postCount);
   return (
-    <div className="lg:py-48 py-10 lg:ml-48">
-      <section className="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800 ">
-        <h2 className="text-3xl pb-5 font-semibold text-gray-700 capitalize dark:text-white text-center">
-          Add Post
-        </h2>
-
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-            <div>
-              <label className="text-gray-700 dark:text-gray-200">
-                Post Title
-              </label>
-              <input
-                id="title"
-                type="text"
-                {...register("title", { required: true })}
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-[#9ef01aa4] focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-              />
-            </div>
-
-            <div>
-              <label className="text-gray-700 dark:text-gray-200">
-                Post Description
-              </label>
-              <input
-                id="description"
-                type="text"
-                {...register("description", { required: true })}
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-[#9ef01aa4] focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-              />
-            </div>
-            <div>
-              <label className="text-gray-700 dark:text-gray-200 ">Tag</label>
-              <Select
-                className="pt-3"
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
-              />
-            </div>
-            <div>
-              <label className="text-gray-700 dark:text-gray-200">
-                Author Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                {...register("name", { required: true })}
-                defaultValue={user?.displayName}
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-[#9ef01aa4] focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-              />
-            </div>
-
-            <div>
-              <label className="text-gray-700 dark:text-gray-200">
-                Author Image
-              </label>
-              <input
-                id="image"
-                type="text"
-                defaultValue={user?.photoURL}
-                {...register("photo", { required: true })}
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-[#9ef01aa4] focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-              />
-            </div>
-            <div>
-              <label className="text-gray-700 dark:text-gray-200">
-                Author Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                {...register("email", { required: true })}
-                defaultValue={user?.email}
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-[#9ef01aa4] focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-              />
-            </div>
-          </div>
-
-          <div className="flex   justify-center mt-6">
-            <button className="px-20 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-[#9ef01a] rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
+    <div>
+      {member ? (
+        <div className="lg:py-48 py-10 lg:ml-48">
+          <section className="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800 ">
+            <h2 className="text-3xl pb-5 font-semibold text-gray-700 capitalize dark:text-white text-center">
               Add Post
-            </button>
-          </div>
-        </form>
-      </section>
+            </h2>
+
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+                <div>
+                  <label className="text-gray-700 dark:text-gray-200">
+                    Post Title
+                  </label>
+                  <input
+                    id="title"
+                    type="text"
+                    {...register("title", { required: true })}
+                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-[#9ef01aa4] focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-gray-700 dark:text-gray-200">
+                    Post Description
+                  </label>
+                  <input
+                    id="description"
+                    type="text"
+                    {...register("description", { required: true })}
+                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-[#9ef01aa4] focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
+                  />
+                </div>
+                <div>
+                  <label className="text-gray-700 dark:text-gray-200 ">
+                    Tag
+                  </label>
+                  <Select
+                    className="pt-3"
+                    defaultValue={selectedOption}
+                    onChange={setSelectedOption}
+                    options={options}
+                  />
+                </div>
+                <div>
+                  <label className="text-gray-700 dark:text-gray-200">
+                    Author Name
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    {...register("name", { required: true })}
+                    defaultValue={user?.displayName}
+                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-[#9ef01aa4] focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-gray-700 dark:text-gray-200">
+                    Author Image
+                  </label>
+                  <input
+                    id="image"
+                    type="text"
+                    defaultValue={user?.photoURL}
+                    {...register("photo", { required: true })}
+                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-[#9ef01aa4] focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
+                  />
+                </div>
+                <div>
+                  <label className="text-gray-700 dark:text-gray-200">
+                    Author Email
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    {...register("email", { required: true })}
+                    defaultValue={user?.email}
+                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-[#9ef01aa4] focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
+                  />
+                </div>
+              </div>
+
+              <div className="flex   justify-center mt-6">
+                <button className="px-20 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-[#9ef01a] rounded-md  focus:outline-none ">
+                  Add Post
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+      ) : (
+        <div>
+          <section className="bg-white dark:bg-gray-900 ">
+            <div className="container flex items-center min-h-screen px-6 py-12 mx-auto">
+              <div className="flex flex-col items-center max-w-sm mx-auto text-center">
+                <p className="p-3 text-sm font-medium text-blue-500 rounded-full bg-blue-50 dark:bg-gray-800">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                    />
+                  </svg>
+                </p>
+                <h1 className="mt-3 text-2xl font-semibold text-gray-800 dark:text-white md:text-3xl">
+                  You have exceeded your post limit
+                </h1>
+                <p className="mt-4 text-gray-500 dark:text-gray-400">
+                  Please subscribe for more posts
+                </p>
+
+                <div className="flex items-center w-full mt-6 gap-x-3 shrink-0 sm:w-auto">
+                  <Link to="/payment">
+                    <button className="w-1/2 px-5 py-2  tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto hover:bg-green-500 dark:hover:bg-green-500 dark:bg-green-500">
+                      Become a Member
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      )}
     </div>
   );
 };
