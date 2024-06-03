@@ -7,7 +7,7 @@ const Dashboard = () => {
       <div className="min-w-[20%]">
         <Sidebar></Sidebar>
       </div>
-      <div className=" w-[90%]">
+      <div className=" w-[90%] ">
         <Outlet></Outlet>
       </div>
     </div>

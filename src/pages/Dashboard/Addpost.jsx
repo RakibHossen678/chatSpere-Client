@@ -80,7 +80,7 @@ console.log(user.email)
     <p>Loading....</p>;
   }
   useEffect(() => {
-    if (userBadge === "bronze" && postCount > 5) {
+    if (userBadge === "bronze" && postCount >= 5) {
       setMember(false);
     }
   }, [userBadge, postCount]);

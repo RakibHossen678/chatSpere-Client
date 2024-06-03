@@ -10,6 +10,7 @@ import MyProfile from "../pages/Dashboard/MyProfile";
 import Addpost from "../pages/Dashboard/Addpost";
 import MyPost from "../pages/Dashboard/MyPost";
 import Payment from "../pages/Payment";
+import Comments from "../Components/Dashboard/Comments";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,13 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path:'comments/:postId',
+        element:<PrivateRoute>
+          <Comments></Comments>
+        </PrivateRoute>
+
+      }
     ],
   },
   {
@@ -74,6 +82,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      
     ],
   },
 ]);

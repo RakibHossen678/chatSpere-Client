@@ -3,6 +3,7 @@ import { axiosSecure } from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
 import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const MyPost = () => {
   const { user } = useAuth();
@@ -49,7 +50,7 @@ const MyPost = () => {
       <div className="text-center text-3xl font-semibold my-7">
         <h1>My Post</h1>
       </div>
-      <div className="ml-72 ">
+      <div className="lg:ml-72 ">
         <div className="overflow-x-auto">
           <table className="table">
             {/* head */}
@@ -69,9 +70,9 @@ const MyPost = () => {
                   <td>{post.title}</td>
                   <td>{post.upVote - post.downVote}</td>
                   <td>
-                    <button className="bg-[#1af041] px-3 py-1 rounded-md text-white">
+                    <Link to={`/comments/${post._id}`} className="bg-[#1af041] px-3 py-1 rounded-md text-white">
                       Comment
-                    </button>
+                    </Link>
                   </td>
                   <td className=" ">
                     <button onClick={() => handleDelete(post._id)}>
