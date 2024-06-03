@@ -63,26 +63,31 @@ const AuthProvider = ({ children }) => {
   };
 
   const saveUser = async (user) => {
-    const currentUser = {
-      name: user?.displayName,
-      email:user?.email,
-      image: user?.photoURL,
-      role: "user",
-      badge: "bronze",
-    };
-    const { data } = await axios.post(
-      "http://localhost:5000/users",
-      currentUser
-    );
-    return data;
+    if ((user?.displayName && user?.photoURL)) {
+      const loggedUser = {
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
+        role: "user",
+        badge: "bronze",
+      };
+      console.log(loggedUser);
+      const { data } = await axios.post(
+        "http://localhost:5000/users",
+        loggedUser
+      );
+      return data;
+    }
   };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       console.log(currentUser);
+
       if (currentUser) {
         getToken(currentUser.email);
+
         saveUser(currentUser);
       }
       setLoading(false);

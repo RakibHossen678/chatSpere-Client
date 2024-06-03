@@ -67,37 +67,7 @@ const Sidebar = () => {
             </div>
           </div>
           <div className="divide-y divide-gray-700">
-            {!userRole === "admin" ? (
-              <ul className="pt-2 pb-4 space-y-1 text-sm">
-                <li>
-                  <NavLink
-                    to="/dashboard"
-                    className="flex items-center p-2 space-x-3 rounded-md"
-                  >
-                    <CgProfile size={24}></CgProfile>
-                    <span>My Profile</span>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="addPost"
-                    className="flex items-center p-2 space-x-3 rounded-md"
-                  >
-                    <IoIosAddCircle size={24} />
-                    <span>Add Post</span>
-                  </NavLink>
-                </li>
-                <li>
-                  <Link
-                    to="myPost"
-                    className="flex items-center p-2 space-x-3 rounded-md"
-                  >
-                    <IoDocumentTextOutline size={24} />
-                    <span>My Posts</span>
-                  </Link>
-                </li>
-              </ul>
-            ) : (
+            {userRole === "admin" && (
               <ul className="pt-2 pb-4 space-y-1 text-sm">
                 <li>
                   <NavLink
@@ -137,6 +107,38 @@ const Sidebar = () => {
                 </li>
               </ul>
             )}
+            {userRole === "user" && (
+              <ul className="pt-2 pb-4 space-y-1 text-sm">
+                <li>
+                  <NavLink
+                    to="/dashboard"
+                    className="flex items-center p-2 space-x-3 rounded-md"
+                  >
+                    <CgProfile size={24}></CgProfile>
+                    <span>My Profile</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="addPost"
+                    className="flex items-center p-2 space-x-3 rounded-md"
+                  >
+                    <IoIosAddCircle size={24} />
+                    <span>Add Post</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <Link
+                    to="myPost"
+                    className="flex items-center p-2 space-x-3 rounded-md"
+                  >
+                    <IoDocumentTextOutline size={24} />
+                    <span>My Posts</span>
+                  </Link>
+                </li>
+              </ul>
+            )}
+
             <ul className="pt-4 pb-2 space-y-1  text-sm">
               <li>
                 <a

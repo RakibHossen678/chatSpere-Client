@@ -1,16 +1,34 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
-  const { data: users = [] } = useQuery({
-    queryKey: ["users"],
+  const { data: users = [],isLoading } = useQuery({
+    queryKey: ["AllUsers"],
     queryFn: async () => {
       const { data } = await axiosSecure("/users");
       return data;
     },
   });
-  console.log(users);
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async (id) => {
+      const { data } = await axiosSecure.patch(`/user/role/${id}`, {
+        role: "admin",
+      });
+      return data;
+    },
+    onSuccess: () => {
+      toast.success(`User role change successfully`);
+    },
+  });
+  const handleMakeAdmin = async (id, name) => {
+    await mutateAsync(id, name);
+  };
+  if(isLoading){
+    <p>Loading.......</p>
+  }
   return (
     <div>
       <div className="text-center">
@@ -52,7 +70,10 @@ const ManageUsers = () => {
                   <td>{user?.email}</td>
                   <td className="uppercase"> {user?.badge}</td>
                   <th>
-                    <button className=" bg-green-400  rounded-lg px-4 py-1">
+                    <button
+                      onClick={() => handleMakeAdmin(user?._id, user?.name)}
+                      className=" bg-green-400  rounded-lg px-4 py-1"
+                    >
                       Make Admin
                     </button>
                   </th>

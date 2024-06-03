@@ -7,7 +7,7 @@ const MyProfile = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const { data: profile = {} } = useQuery({
-    queryKey: ["user"],
+    queryKey: ["users"],
     queryFn: async () => {
       const { data } = await axiosSecure(`/user/${user?.email}`);
       return data;
