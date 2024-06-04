@@ -30,6 +30,7 @@ const Announcement = () => {
     await mutateAsync(announcementData);
     console.log(announcementData);
   };
+  
   return (
     <div className="w-6/12 mx-auto items-center flex-col">
       <div className="text-center">

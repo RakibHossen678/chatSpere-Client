@@ -37,11 +37,11 @@ const Navbar = () => {
   const navLinks = (
     <>
       <li>
-        <NavLink>Home</NavLink>
+        <NavLink to="/">Home</NavLink>
       </li>
 
       <li>
-        <a>Membership</a>
+        <NavLink to="/payment">Membership</NavLink>
       </li>
     </>
   );
@@ -88,14 +88,13 @@ const Navbar = () => {
             </ul>
           </div>
           <div>
-            {/* Open the modal using document.getElementById('ID').showModal() method */}
             <Button onClick={open} className="relative">
               <IoMdNotificationsOutline className="mx-4 text-white" size={28} />
               <p className="absolute text-white bg-green-400 px-2 -top-3 right-0 rounded-full">
                 {announcements.length}
               </p>
             </Button>
-
+            
             <Transition appear show={isOpen}>
               <Dialog
                 as="div"
@@ -114,42 +113,41 @@ const Navbar = () => {
                     >
                       <DialogPanel className="w-full max-w-md rounded-xl bg-white p-6 backdrop-blur-2xl">
                         <div className="overflow-y-auto h-96 ">
-
-                        {announcements.map((announcement, idx) => (
-                          <div
-                            key={idx}
-                            className="flex items-center rounded shadow-md overflow-hidden max-w-xl relative my-5 bg-green-100"
-                          >
-                            <div className="self-stretch flex items-center px-3 flex-shrink-0 ">
-                              <img
-                                className="w-10 h-10 rounded-3xl"
-                                src={announcement.authorImage}
-                              />
+                          {announcements.map((announcement, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center rounded shadow-md overflow-hidden max-w-xl relative my-5 bg-green-100"
+                            >
+                              <div className="self-stretch flex items-center px-3 flex-shrink-0 ">
+                                <img
+                                  className="w-10 h-10 rounded-3xl"
+                                  src={announcement.authorImage}
+                                />
+                              </div>
+                              <div className="p-4 flex-1">
+                                <h3 className="text-xl font-bold">
+                                  {announcement.title}
+                                </h3>
+                                <p className="text-sm ">
+                                  {announcement.description}
+                                </p>
+                              </div>
+                              <button className="absolute top-2 right-2">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                  className="h-4 w-4 p-2 rounded cursor-pointer"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clipRule="evenodd"
+                                  ></path>
+                                </svg>
+                              </button>
                             </div>
-                            <div className="p-4 flex-1">
-                              <h3 className="text-xl font-bold">
-                                {announcement.title}
-                              </h3>
-                              <p className="text-sm ">
-                                {announcement.description}
-                              </p>
-                            </div>
-                            <button className="absolute top-2 right-2">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                className="h-4 w-4 p-2 rounded cursor-pointer"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                  clipRule="evenodd"
-                                ></path>
-                              </svg>
-                            </button>
-                          </div>
-                        ))}
+                          ))}
                         </div>
                       </DialogPanel>
                     </TransitionChild>
