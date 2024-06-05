@@ -1,16 +1,34 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
-  const { data: users = [], isLoading } = useQuery({
-    queryKey: ["AllUsers"],
+  const [itemsPerPage, setItemPerPage] = useState(10);
+  const [count, setCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data: users = [] } = useQuery({
+    queryKey: ["AllUsers", currentPage, itemsPerPage],
     queryFn: async () => {
-      const { data } = await axiosSecure("/users");
+      const { data } = await axiosSecure(
+        `/users?page=${currentPage}&size=${itemsPerPage}`
+      );
+
       return data;
     },
   });
+  const { data: UserCount = {} } = useQuery({
+    queryKey: ["counts"],
+    queryFn: async () => {
+      const { data } = await axiosSecure("/usersCount");
+      setCount(data.count);
+      return data;
+    },
+  });
+  console.log(count);
+
+  const PageCount = Math.ceil(count / itemsPerPage);
 
   const { mutateAsync } = useMutation({
     mutationFn: async (id) => {
@@ -26,9 +44,12 @@ const ManageUsers = () => {
   const handleMakeAdmin = async (id, name) => {
     await mutateAsync(id, name);
   };
-  if (isLoading) {
-    <p>Loading.......</p>;
-  }
+  const pages = [...Array(PageCount).keys()].map((element) => element + 1);
+
+  const handlePaginationButton = (value) => {
+    console.log(value);
+    setCurrentPage(value);
+  };
   return (
     <div>
       <div className="text-center">
@@ -36,7 +57,7 @@ const ManageUsers = () => {
       </div>
       <div className="lg:w-6/12 mx-auto my-5">
         <div className="w-full space-x-2">
-          <form className="space-x-2" >
+          <form className="space-x-2">
             <input
               className="w-7/12 border-2 b py-3 te px-2 rounded-md  outline-none"
               type="text"
@@ -51,9 +72,9 @@ const ManageUsers = () => {
           </form>
         </div>
       </div>
-      <div className="flex justify-center">
-        <div className="overflow-x-auto">
-          <table className="table">
+      <div className=" ">
+        <div className="overflow-y-auto">
+          <table className="table ">
             {/* head */}
             <thead>
               <tr>
@@ -98,6 +119,26 @@ const ManageUsers = () => {
               ))}
             </tbody>
           </table>
+        </div>
+      </div>
+      <div>
+        <div className="flex justify-center my-5">
+          <a className="flex items-center px-4 py-2 mx-1 text-gray-900 rounded-md cursor-pointer bg-green-300">
+            previous
+          </a>
+          {pages.map((page, idx) => (
+            <button
+              onClick={() => handlePaginationButton(page)}
+              key={idx}
+              className="items-center hidden px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-md sm:flex dark:bg-gray-800 dark:text-gray-200 hover:bg-green-600 dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200"
+            >
+              {page}
+            </button>
+          ))}
+
+          <a className="flex items-center px-4 py-2 mx-1 text-gray-900 rounded-md cursor-pointer bg-green-300">
+            Next
+          </a>
         </div>
       </div>
     </div>

@@ -32,7 +32,7 @@ const Announcement = () => {
   };
   
   return (
-    <div className="w-7/12 mx-auto items-center flex-col">
+    <div className="w-7/12 mx-auto ">
       <div className="text-center">
         <h1 className="text-4xl mt-14 pb-6">Add Announcement</h1>
       </div>
