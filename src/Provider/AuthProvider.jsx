@@ -62,23 +62,23 @@ const AuthProvider = ({ children }) => {
     return data;
   };
 
-  const saveUser = async (user) => {
-    if ((user?.displayName && user?.photoURL)) {
-      const loggedUser = {
-        name: user?.displayName,
-        email: user?.email,
-        image: user?.photoURL,
-        role: "user",
-        badge: "bronze",
-      };
-      console.log(loggedUser);
-      const { data } = await axios.post(
-        "http://localhost:5000/users",
-        loggedUser
-      );
-      return data;
-    }
-  };
+  // const saveUser = async (user) => {
+  //   if ((user?.displayName && user?.photoURL)) {
+  //     const loggedUser = {
+  //       name: user?.displayName,
+  //       email: user?.email,
+  //       image: user?.photoURL,
+  //       role: "user",
+  //       badge: "bronze",
+  //     };
+  //     console.log(loggedUser);
+  //     const { data } = await axios.post(
+  //       "http://localhost:5000/users",
+  //       loggedUser
+  //     );
+  //     return data;
+  //   }
+  // };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -87,8 +87,6 @@ const AuthProvider = ({ children }) => {
 
       if (currentUser) {
         getToken(currentUser.email);
-
-        saveUser(currentUser);
       }
       setLoading(false);
     });

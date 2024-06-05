@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
-  const { data: users = [],isLoading } = useQuery({
+  const { data: users = [], isLoading } = useQuery({
     queryKey: ["AllUsers"],
     queryFn: async () => {
       const { data } = await axiosSecure("/users");
@@ -26,13 +26,30 @@ const ManageUsers = () => {
   const handleMakeAdmin = async (id, name) => {
     await mutateAsync(id, name);
   };
-  if(isLoading){
-    <p>Loading.......</p>
+  if (isLoading) {
+    <p>Loading.......</p>;
   }
   return (
     <div>
       <div className="text-center">
         <h1 className="text-4xl font-semibold py-9">Manage Users</h1>
+      </div>
+      <div className="lg:w-6/12 mx-auto my-5">
+        <div className="w-full space-x-2">
+          <form className="space-x-2" >
+            <input
+              className="w-7/12 border-2 b py-3 te px-2 rounded-md  outline-none"
+              type="text"
+              placeholder="Search For user...."
+            />
+            <button
+              type="submit"
+              className="font-medium  bg-[#70e000] text-white py-3 px-4 rounded-md"
+            >
+              Search
+            </button>
+          </form>
+        </div>
       </div>
       <div className="flex justify-center">
         <div className="overflow-x-auto">

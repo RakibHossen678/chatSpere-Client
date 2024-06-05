@@ -3,12 +3,28 @@ import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../Hooks/useAuth";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state || "/";
   const { signIn, signInWithGoogle } = useAuth();
+  const axiosPublic = useAxiosPublic();
+  const { mutateAsync } = useMutation({
+    mutationFn: async (userInfo) => {
+      const { data } = await axiosPublic.post(
+        "http://localhost:5000/users",
+        userInfo
+      );
+      console.log(data);
+    },
+    onSuccess: async () => {
+      await navigate(from);
+      toast.success("Sign up Successful");
+    },
+  });
   const {
     register,
     handleSubmit,
@@ -27,8 +43,16 @@ const Login = () => {
   };
   const handleGoogleSingIn = async () => {
     try {
-      await signInWithGoogle();
-      navigate(from);
+      const result = await signInWithGoogle();
+      const userInfo = {
+        name: result.user.displayName,
+        email: result.user.email,
+        image: result.user.photoURL,
+        role: "user",
+        badge: "bronze",
+      };
+      console.log(userInfo);
+      await mutateAsync(userInfo);
       toast.success("Sign in successful");
     } catch (err) {
       console.log(err);

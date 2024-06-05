@@ -4,10 +4,29 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const Register = () => {
-  const { updateUserProfile, createUser, signInWithGoogle } = useAuth();
+  const { updateUserProfile, createUser, signInWithGoogle, setLoading } =
+    useAuth();
   const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async (userInfo) => {
+      const { data } = await axiosPublic.post(
+        "http://localhost:5000/users",
+        userInfo
+      );
+      console.log(data);
+    },
+    onSuccess: async () => {
+      await navigate("/");
+      toast.success("Sign up Successful");
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -21,6 +40,7 @@ const Register = () => {
     formData.append("image", imageFile);
 
     try {
+      setLoading(true);
       const { data } = await axios.post(
         `https://api.imgbb.com/1/upload?key=${
           import.meta.env.VITE_IMAGE_HOSTING_KEY
@@ -28,19 +48,37 @@ const Register = () => {
         formData
       );
 
+      const photoURL = data.data.display_url;
       //user register
       const result = await createUser(email, pass);
       console.log(result);
-      await updateUserProfile(name, data.data.display_url);
-      navigate("/");
-      toast.success("Sign up Successful");
+      await updateUserProfile(name, photoURL);
+      const userInfo = {
+        name: name,
+        email: email,
+        image: photoURL,
+        role: "user",
+        badge: "bronze",
+      };
+      await mutateAsync(userInfo);
     } catch (err) {
       console.log(err);
     }
   };
   const handleGoogleSingIn = async () => {
     try {
-      await signInWithGoogle();
+      setLoading(true);
+      const result = await signInWithGoogle();
+      const userInfo = {
+        name: result.user.displayName,
+        email: result.user.email,
+        image: result.user.photoURL,
+        role: "user",
+        badge: "bronze",
+      };
+      console.log(userInfo);
+      await mutateAsync(userInfo);
+
       navigate("/");
       toast.success("Sign in successful");
     } catch (err) {
