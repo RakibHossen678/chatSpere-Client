@@ -3,6 +3,8 @@ import "./Checkout.css";
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const CheckoutForm = ({ setIsOpen }) => {
   const stripe = useStripe();
@@ -26,6 +28,17 @@ const CheckoutForm = ({ setIsOpen }) => {
       console.error("Error fetching client secret:", error);
     }
   };
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async (paymentInfo) => {
+      const { data } = await axiosSecure.post("/payment", paymentInfo);
+      console.log(data);
+    },
+    onSuccess: () => {
+      toast.success("Payment is successful");
+    },
+  });
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setProcessing(true);
@@ -78,9 +91,15 @@ const CheckoutForm = ({ setIsOpen }) => {
         transactionId: paymentIntent.id,
       };
       console.log(paymentInfo);
+      try {
+        await mutateAsync(paymentInfo);
+        setIsOpen(false);
+      } catch (err) {
+        console.log(err);
+      }
     }
     setProcessing(false);
-    setIsOpen(false);
+    
   };
 
   return (
