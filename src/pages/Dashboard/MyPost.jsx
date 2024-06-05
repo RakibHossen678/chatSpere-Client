@@ -50,7 +50,7 @@ const MyPost = () => {
       <div className="text-center text-3xl font-semibold my-7">
         <h1>My Post</h1>
       </div>
-      <div className="lg:ml-72 ">
+      <div className=" ">
         <div className="overflow-x-auto">
           <table className="table">
             {/* head */}

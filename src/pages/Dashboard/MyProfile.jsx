@@ -53,7 +53,7 @@ const MyProfile = () => {
         <div className="text-center">
           <h2 className="text-3xl font-semibold py-4">My Recent Activity</h2>
         </div>
-        <div className="ml-28">
+        <div className="">
           {posts.slice(0, 3).map((post, idx) => (
             <PostCard key={idx} post={post}></PostCard>
           ))}

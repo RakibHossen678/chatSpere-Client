@@ -5,8 +5,10 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutForm = ({ setIsOpen }) => {
+  const navigate=useNavigate()
   const stripe = useStripe();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -36,6 +38,7 @@ const CheckoutForm = ({ setIsOpen }) => {
     },
     onSuccess: () => {
       toast.success("Payment is successful");
+      navigate('/')
     },
   });
 
@@ -99,7 +102,6 @@ const CheckoutForm = ({ setIsOpen }) => {
       }
     }
     setProcessing(false);
-    
   };
 
   return (

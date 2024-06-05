@@ -32,12 +32,12 @@ const Announcement = () => {
   };
   
   return (
-    <div className="w-6/12 mx-auto items-center flex-col">
+    <div className="w-7/12 mx-auto items-center flex-col">
       <div className="text-center">
         <h1 className="text-4xl mt-14 pb-6">Add Announcement</h1>
       </div>
       <div>
-        <section className="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
+        <section className="max-w-5xl p-6 bg-white rounded-md shadow-md dark:bg-gray-800">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
               <div>
