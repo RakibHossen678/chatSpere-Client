@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
 import { FaUsers } from "react-icons/fa";
@@ -6,6 +6,7 @@ import { TfiComments } from "react-icons/tfi";
 import { GrDatabase } from "react-icons/gr";
 import { MdOutlineWorkspacePremium } from "react-icons/md";
 import PieChar from "../../Components/Dashboard/PieChar";
+import toast from "react-hot-toast";
 
 const AdminProfile = () => {
   const axiosSecure = useAxiosSecure();
@@ -25,7 +26,21 @@ const AdminProfile = () => {
       return data;
     },
   });
-  console.log(adminStats);
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async ( tag ) => {
+      const { data } = await axiosSecure.post("/tags",  {category:tag} );
+      return data;
+    },
+    onSuccess: () => {
+      toast.success("Tag added successfully");
+    },
+  });
+  const handleAddTag =async (e) => {
+    e.preventDefault();
+    const tag = e.target.tag.value;
+    await mutateAsync(tag);
+  };
 
   return (
     <div>
@@ -74,6 +89,24 @@ const AdminProfile = () => {
               </span>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="my-5 w-9/12  mx-auto">
+        <div className="flex w-full justify-center ">
+          <form onSubmit={handleAddTag}>
+            <input
+              type="text"
+              name="tag"
+              className="border-2  outline-none w-96 py-1 px-2 rounded-md"
+              placeholder="Enter a tag"
+            />
+            <button
+              type="submit"
+              className="bg-green-400 ml-4 px-2 py-1 rounded-md text-white"
+            >
+              Add Tag
+            </button>
+          </form>
         </div>
       </div>
       <div>

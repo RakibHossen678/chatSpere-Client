@@ -7,31 +7,39 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
-const categories = [
-  "MERN",
-  "Express",
-  "React",
-  "MongoDB",
-  "Node.js",
-  "Redux",
-  "Firebase",
-  "CSS",
-  "Testing",
-  "GraphQL",
-  "JavaScript",
-];
-const options = categories.map((category) => ({
-  value: category,
-  label: category,
-}));
 const Addpost = () => {
   const [member, setMember] = useState(true);
   const { register, handleSubmit } = useForm();
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const [selectedOption, setSelectedOption] = useState(null);
-
-  const { data: badge = {}, isLoading } = useQuery({
+  const { data: categories = [] } = useQuery({
+    queryKey: ["Admin"],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/categories`);
+      return data;
+    },
+  });
+  console.log(categories);
+  // const categories = [
+  //   "MERN",
+  //   "Express",
+  //   "React",
+  //   "MongoDB",
+  //   "Node.js",
+  //   "Redux",
+  //   "Firebase",
+  //   "CSS",
+  //   "Testing",
+  //   "GraphQL",
+  //   "JavaScript",
+  // ];
+  const options = categories.map((category) => ({
+    value: category.category,
+    label: category.category,
+  }));
+  console.log(options);
+  const { data: badge = {} } = useQuery({
     queryKey: ["badge"],
     queryFn: async () => {
       if (user) {
@@ -76,9 +84,7 @@ const Addpost = () => {
       await mutateAsync(postData);
     }
   };
-  if (isLoading) {
-    <p>Loading....</p>;
-  }
+ 
   useEffect(() => {
     if (userBadge === "bronze" && postCount >= 5) {
       setMember(false);
