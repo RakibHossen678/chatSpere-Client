@@ -6,22 +6,22 @@ import { useState } from "react";
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
   const [itemsPerPage, setItemPerPage] = useState(10);
+  const [search, setSearch] = useState("");
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const { data: users = [] } = useQuery({
-    queryKey: ["AllUsers", currentPage, itemsPerPage],
+    queryKey: ["AllUsers", currentPage, itemsPerPage, search],
     queryFn: async () => {
       const { data } = await axiosSecure(
-        `/users?page=${currentPage}&size=${itemsPerPage}`
+        `/users?page=${currentPage}&size=${itemsPerPage}&search=${search}`
       );
-
       return data;
     },
   });
   const { data: UserCount = {} } = useQuery({
-    queryKey: ["counts"],
+    queryKey: ["counts", search],
     queryFn: async () => {
-      const { data } = await axiosSecure("/usersCount");
+      const { data } = await axiosSecure(`/usersCount?search=${search}`);
       setCount(data.count);
       return data;
     },
@@ -50,6 +50,12 @@ const ManageUsers = () => {
     console.log(value);
     setCurrentPage(value);
   };
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const text = e.target.search.value;
+    setSearch(text);
+  };
+  console.log(search);
   return (
     <div>
       <div className="text-center">
@@ -57,10 +63,11 @@ const ManageUsers = () => {
       </div>
       <div className="lg:w-6/12 mx-auto my-5">
         <div className="w-full space-x-2">
-          <form className="space-x-2">
+          <form onSubmit={handleSearch} className="space-x-2">
             <input
               className="w-7/12 border-2 b py-3 te px-2 rounded-md  outline-none"
               type="text"
+              name="search"
               placeholder="Search For user...."
             />
             <button
@@ -123,22 +130,32 @@ const ManageUsers = () => {
       </div>
       <div>
         <div className="flex justify-center my-5">
-          <a className="flex items-center px-4 py-2 mx-1 text-gray-900 rounded-md cursor-pointer bg-green-300">
+          <button
+            disabled={currentPage == 1}
+            onClick={() => handlePaginationButton(currentPage - 1)}
+            className="flex items-center px-4 py-2 mx-1 text-gray-900 rounded-md cursor-pointer bg-green-300"
+          >
             previous
-          </a>
+          </button>
           {pages.map((page, idx) => (
             <button
               onClick={() => handlePaginationButton(page)}
               key={idx}
-              className="items-center hidden px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-md sm:flex dark:bg-gray-800 dark:text-gray-200 hover:bg-green-600 dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200"
+              className={`items-center ${
+                currentPage === page && "bg-green-600 text-white"
+              } hidden px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-md sm:flex dark:bg-gray-800 dark:text-gray-200 hover:bg-green-600 dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200`}
             >
               {page}
             </button>
           ))}
 
-          <a className="flex items-center px-4 py-2 mx-1 text-gray-900 rounded-md cursor-pointer bg-green-300">
+          <button
+            disabled={currentPage == 2}
+            onClick={() => handlePaginationButton(currentPage + 1)}
+            className="flex items-center px-4 py-2 mx-1 text-gray-900 rounded-md cursor-pointer bg-green-300"
+          >
             Next
-          </a>
+          </button>
         </div>
       </div>
     </div>
