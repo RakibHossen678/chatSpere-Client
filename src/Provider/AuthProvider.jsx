@@ -58,7 +58,7 @@ const AuthProvider = ({ children }) => {
       { email },
       { withCredentials: true }
     );
-    console.log(data);
+    // console.log(data);
     return data;
   };
 

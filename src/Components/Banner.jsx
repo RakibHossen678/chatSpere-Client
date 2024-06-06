@@ -1,4 +1,19 @@
+import { useState } from "react";
+import queryString from "query-string";
+
 const Banner = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const search = e.target.search.value;
+    let currentQuery = {
+      search: search,
+    };
+    const url = queryString.stringifyUrl({
+      url: "/",
+      query: currentQuery,
+    });
+    console.log(url)
+  };
   return (
     <div className="">
       <div className="hero z-0 bg-[#03045e] min-h-screen">
@@ -9,16 +24,20 @@ const Banner = () => {
               Welcome to the Community Forum - Connect, Share, and Grow!
             </h1>
             <div className="lg:w-8/12 mx-auto">
-              <div className="w-full space-x-2">
+              <form onSubmit={handleSearch} className="w-full space-x-2">
                 <input
                   className="w-9/12 py-3 te px-2 rounded-md border-none outline-none"
                   type="text"
+                  name="search"
                   placeholder="Search For Topics...."
                 />
-                <button className="font-medium  bg-[#70e000] text-white py-3 px-4 rounded-md">
+                <button
+                  type="submit"
+                  className="font-medium  bg-[#70e000] text-white py-3 px-4 rounded-md"
+                >
                   Search
                 </button>
-              </div>
+              </form>
             </div>
             <div className="text-white flex items-center justify-center py-6 lg:space-x-4">
               <h1>Popular topics :</h1>

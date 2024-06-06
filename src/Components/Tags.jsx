@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
-import axios from "axios";
+import queryString from "query-string";
 
 const Tags = () => {
   const axiosSecure = useAxiosPublic();
@@ -11,6 +11,16 @@ const Tags = () => {
       return data;
     },
   });
+  const handleTag = (tag) => {
+    let currentQuery = {
+      tag: tag,
+    };
+    const url = queryString.stringifyUrl({
+      url: "/",
+      query: currentQuery,
+    });
+    console.log(url);
+  };
   return (
     <div className="my-20">
       <div className="text-center">
@@ -18,9 +28,13 @@ const Tags = () => {
       </div>
       <div className="grid grid-cols-5 gap-4 text-center my-10">
         {Tags.map((tag, idx) => (
-          <div className="bg-green-50 py-6 hover:scale-110 hover:bg-green-200 rounded-md" key={idx}>
+          <button
+            onClick={() => handleTag(tag.category)}
+            className="bg-green-50 py-6 hover:scale-110 hover:bg-green-200 rounded-md"
+            key={idx}
+          >
             <h1 className="text-xl font-bold ">{tag.category}</h1>
-          </div>
+          </button>
         ))}
       </div>
     </div>

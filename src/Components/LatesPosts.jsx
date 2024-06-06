@@ -26,7 +26,7 @@ const LatesPosts = () => {
       return data;
     },
   });
-  console.log(count);
+  // console.log(count);
 
   const PageCount = Math.ceil(count / itemsPerPage);
   const pages = [...Array(PageCount).keys()].map((element) => element + 1);
