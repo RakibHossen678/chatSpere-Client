@@ -1,11 +1,25 @@
+import { useMutation } from "@tanstack/react-query";
 import queryString from "query-string";
 import { useNavigate } from "react-router-dom";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 const Banner = () => {
   const navigate = useNavigate();
-  const handleSearch = (e) => {
+  const axiosPublic = useAxiosPublic();
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async (searchText) => {
+      const { data } = await axiosPublic.post("/search", searchText);
+      return data;
+    },
+  });
+  const handleSearch = async (e) => {
     e.preventDefault();
     const search = e.target.search.value;
+    const searchText = {
+      search,
+    };
+    await mutateAsync(searchText);
     let currentQuery = {
       tag: search,
     };
@@ -15,6 +29,7 @@ const Banner = () => {
     });
     navigate(url);
   };
+
   return (
     <div className="">
       <div className="hero z-0 bg-[#03045e] min-h-screen">
