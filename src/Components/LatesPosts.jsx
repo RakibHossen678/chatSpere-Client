@@ -1,27 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
 import PostCard from "./PostCard";
 import { useState } from "react";
-import useAxiosSecure from "../Hooks/useAxiosSecure";
+import { useSearchParams } from "react-router-dom";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 const LatesPosts = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const { data: posts = [] } = useQuery({
-    queryKey: ["posts",currentPage, itemsPerPage,],
+  const [params, setParams] = useSearchParams();
+  const search = params.get("tag") || "";
+  const { data: posts = [], isLoading: postsLoading } = useQuery({
+    queryKey: ["posts", currentPage, itemsPerPage, search],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(
-        `/posts?page=${currentPage}&size=${itemsPerPage}`
+      const { data } = await axiosPublic.get(
+        `/posts?page=${currentPage}&size=${itemsPerPage}&search=${search}`
       );
       return data;
     },
   });
-  // console.log(posts);
-  const { data: postCount = {} } = useQuery({
-    queryKey: ["counts"],
+  console.log(search);
+  const { data: postCount = {}, isLoading: countLoading } = useQuery({
+    queryKey: ["counts", search],
     queryFn: async () => {
-      const { data } = await axiosSecure(`/usersCount`);
+      const { data } = await axiosPublic.get(`/postsCount?search=${search}`);
       setCount(data.count);
       return data;
     },
@@ -34,6 +37,9 @@ const LatesPosts = () => {
     console.log(value);
     setCurrentPage(value);
   };
+  if (postsLoading || countLoading) {
+    <p>loading........</p>;
+  }
   return (
     <div>
       <div className="text-center">
@@ -53,7 +59,7 @@ const LatesPosts = () => {
           >
             previous
           </button>
-          {pages.map((page, idx) => (
+          {pages?.map((page, idx) => (
             <button
               onClick={() => handlePaginationButton(page)}
               key={idx}

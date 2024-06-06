@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
 import queryString from "query-string";
-
+import { useNavigate } from "react-router-dom";
 const Tags = () => {
-  const axiosSecure = useAxiosPublic();
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
   const { data: Tags = [] } = useQuery({
     queryKey: ["tags"],
     queryFn: async () => {
-      const { data } = await axiosSecure.get("/categories");
+      const { data } = await axiosPublic.get("/categories");
       return data;
     },
   });
@@ -19,7 +20,7 @@ const Tags = () => {
       url: "/",
       query: currentQuery,
     });
-    console.log(url);
+    navigate(url);
   };
   return (
     <div className="my-20">

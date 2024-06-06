@@ -1,18 +1,19 @@
-import { useState } from "react";
 import queryString from "query-string";
+import { useNavigate } from "react-router-dom";
 
 const Banner = () => {
+  const navigate = useNavigate();
   const handleSearch = (e) => {
     e.preventDefault();
     const search = e.target.search.value;
     let currentQuery = {
-      search: search,
+      tag: search,
     };
     const url = queryString.stringifyUrl({
       url: "/",
       query: currentQuery,
     });
-    console.log(url)
+    navigate(url);
   };
   return (
     <div className="">

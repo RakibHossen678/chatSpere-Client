@@ -32,7 +32,7 @@ const Navbar = () => {
       return data;
     },
   });
-  console.log(announcements);
+  // console.log(announcements);
 
   const navLinks = (
     <>
@@ -73,12 +73,12 @@ const Navbar = () => {
               {navLinks}
             </ul>
           </div>
-          <a className="flex items-center">
+          <Link to="/" className="flex items-center">
             <img className="lg:w-14 w-8" src={logo} alt="" />
             <h1 className="lg:text-3xl text-xl font-bold bg-gradient-to-r from-[#70e000] via-[#9ef01a] to-green-400 text-transparent bg-clip-text animate-gradient">
               ChatSphere
             </h1>
-          </a>
+          </Link>
         </div>
         <div className="navbar-center "></div>
         <div className="navbar-end ">
@@ -94,7 +94,7 @@ const Navbar = () => {
                 {announcements.length}
               </p>
             </Button>
-            
+
             <Transition appear show={isOpen}>
               <Dialog
                 as="div"
