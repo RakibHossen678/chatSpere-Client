@@ -1,5 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const ReportedComments = () => {
   const axiosSecure = useAxiosSecure();
@@ -10,6 +11,20 @@ const ReportedComments = () => {
       return data;
     },
   });
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async (id) => {
+      const { data } = await axiosSecure.delete(`/report/${id}`);
+      return data;
+    },
+    onSuccess: () => {
+      toast.success("Delete Comment");
+    },
+  });
+
+  const handleDeletedReportedComment = async (id) => {
+    await mutateAsync(id);
+  };
   return (
     <div className="my-20">
       <div className="text-center">
@@ -36,9 +51,12 @@ const ReportedComments = () => {
                   <td>{report.commentText}</td>
                   <td>{report.ReportText}</td>
                   <td>
-                    <button 
-                    
-                     className="bg-red-500 text-white px-3 py-1 rounded-md">
+                    <button
+                      onClick={() =>
+                        handleDeletedReportedComment(report.commentId)
+                      }
+                      className="bg-red-500 text-white px-3 py-1 rounded-md"
+                    >
                       Delete
                     </button>
                   </td>
