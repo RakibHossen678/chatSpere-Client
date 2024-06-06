@@ -13,7 +13,7 @@ const Addpost = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const [selectedOption, setSelectedOption] = useState(null);
-  const { data: categories = [] } = useQuery({
+  const { data: categories = [] ,isLoading} = useQuery({
     queryKey: ["Admin"],
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/categories`);
@@ -21,19 +21,7 @@ const Addpost = () => {
     },
   });
   console.log(categories);
-  // const categories = [
-  //   "MERN",
-  //   "Express",
-  //   "React",
-  //   "MongoDB",
-  //   "Node.js",
-  //   "Redux",
-  //   "Firebase",
-  //   "CSS",
-  //   "Testing",
-  //   "GraphQL",
-  //   "JavaScript",
-  // ];
+  
   const options = categories.map((category) => ({
     value: category.category,
     label: category.category,
@@ -91,6 +79,9 @@ const Addpost = () => {
     }
   }, [userBadge, postCount]);
   console.log(member, userBadge, postCount);
+  if(isLoading){
+    <p>loading.........</p>
+  }
   return (
     <div>
       {member ? (

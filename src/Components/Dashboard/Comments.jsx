@@ -1,20 +1,22 @@
 import { useParams } from "react-router-dom";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import Select from "react-select";
 import useAuth from "../../Hooks/useAuth";
+import toast from "react-hot-toast";
 const options = [
   { value: "spam", label: "Spam" },
   { value: "abusive", label: "Abusive Language" },
   { value: "irrelevant", label: "Irrelevant Content" },
 ];
 const Comments = () => {
-  const { loading, setLoading } = useAuth();
+  const { user, loading, setLoading } = useAuth();
+
+  const [isClick, setIsClick] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const axiosSecure = useAxiosPublic();
   const { postId } = useParams();
-  console.log(postId);
   const { data: post = {}, isLoading: postLoading } = useQuery({
     queryKey: ["post", postId],
     queryFn: async () => {
@@ -23,8 +25,6 @@ const Comments = () => {
       return data;
     },
   });
-
-  console.log(post?.title);
 
   const { data: comments = [], isLoading } = useQuery({
     queryKey: ["comments", post?.title],
@@ -35,11 +35,30 @@ const Comments = () => {
       return data;
     },
   });
-  console.log(comments);
-    console.log(selectedOption);
-  const handleClick = () => {
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async (reportData) => {
+      const { data } = await axiosSecure.post("/reports", reportData);
+      return data;
+    },
+    onSuccess: async () => {
+      toast.success("Report sent successfully");
+    },
+  });
+
+  const handleReport = async (title, commenterEmail, id, text) => {
     console.log("clicked");
-    selectedOption("null");
+    const reportData = {
+      ReportedPost: title,
+      Reporter: user?.email,
+      commentText: text,
+      ReportText: selectedOption.value,
+      commenterEmail: commenterEmail,
+      commentId: id,
+    };
+    await mutateAsync(reportData);
+    console.log(reportData);
+    setIsClick(true);
   };
   if (loading || isLoading || postLoading) {
     <p>loading..........</p>;
@@ -63,7 +82,7 @@ const Comments = () => {
               </tr>
             </thead>
             <tbody>
-              {comments.map((comment, idx) => (
+              {comments?.map((comment, idx) => (
                 <tr key={idx}>
                   <th>{idx + 1}</th>
                   <td>{comment.authorEmail}</td>
@@ -101,8 +120,15 @@ const Comments = () => {
                   </td>
                   <td>
                     <button
-                      onClick={handleClick}
-                      disabled={!selectedOption}
+                      onClick={() =>
+                        handleReport(
+                          post.title,
+                          comment.authorEmail,
+                          comment._id,
+                          comment.comment
+                        )
+                      }
+                      disabled={!selectedOption || isClick}
                       className="bg-red-500 px-4 py-2 text-white rounded-lg"
                     >
                       Report
