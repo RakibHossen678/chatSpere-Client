@@ -27,7 +27,7 @@ const Tags = () => {
       <div className="text-center">
         <h1 className="text-4xl font-semibold">Explore Posts by Tags</h1>
       </div>
-      <div className="grid grid-cols-5 gap-4 text-center my-10">
+      <div className="grid lg:grid-cols-5 grid-cols-3 gap-4 text-center my-10">
         {Tags.map((tag, idx) => (
           <button
             onClick={() => handleTag(tag.category)}

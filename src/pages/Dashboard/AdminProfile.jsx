@@ -91,13 +91,13 @@ const AdminProfile = () => {
           </div>
         </div>
       </div>
-      <div className="my-5 w-9/12  mx-auto">
+      <div className="my-5 lg:w-9/12  mx-auto">
         <div className="flex w-full justify-center ">
           <form onSubmit={handleAddTag}>
             <input
               type="text"
               name="tag"
-              className="border-2  outline-none w-96 py-1 px-2 rounded-md"
+              className="border-2  outline-none lg:w-96 py-1 px-2 rounded-md"
               placeholder="Enter a tag"
             />
             <button

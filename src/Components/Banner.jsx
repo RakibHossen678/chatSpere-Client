@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import queryString from "query-string";
 import { useNavigate } from "react-router-dom";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
@@ -16,10 +16,7 @@ const Banner = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     const search = e.target.search.value;
-    const searchText = {
-      search,
-    };
-    await mutateAsync(searchText);
+
     let currentQuery = {
       tag: search,
     };
@@ -28,8 +25,19 @@ const Banner = () => {
       query: currentQuery,
     });
     navigate(url);
+    const searchText = {
+      search,
+    };
+    await mutateAsync(searchText);
   };
 
+  const { data: searchText = [] } = useQuery({
+    queryKey: ["searchText"],
+    queryFn: async () => {
+      const { data } = await axiosPublic.get("/search");
+      return data;
+    },
+  });
   return (
     <div className="">
       <div className="hero z-0 bg-[#03045e] min-h-screen">
@@ -42,7 +50,7 @@ const Banner = () => {
             <div className="lg:w-8/12 mx-auto">
               <form onSubmit={handleSearch} className="w-full space-x-2">
                 <input
-                  className="w-9/12 py-3 te px-2 rounded-md border-none outline-none"
+                  className="w-9/12  py-3 te px-2 rounded-md border-none outline-none"
                   type="text"
                   name="search"
                   placeholder="Search For Topics...."
@@ -58,15 +66,14 @@ const Banner = () => {
             <div className="text-white flex items-center justify-center py-6 lg:space-x-4">
               <h1>Popular topics :</h1>
               <ul className="flex space-x-4 items-center">
-                <li className="border-2 lg:px-3 px-2 py-1 rounded-full">
-                  WordPress
-                </li>
-                <li className="border-2 lg:px-3 px-2 py-1 rounded-full">
-                  Getting
-                </li>
-                <li className="border-2 lg:px-3 px-2 py-1 rounded-full">
-                  Footer
-                </li>
+                {searchText.slice(0,3).map((text, idx) => (
+                  <li
+                    key={idx}
+                    className="border-2 uppercase lg:px-3 px-2 py-1 rounded-full"
+                  >
+                    {text.search}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

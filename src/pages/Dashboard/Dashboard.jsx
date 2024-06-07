@@ -4,10 +4,10 @@ import Sidebar from "../../Components/Dashboard/Sidebar";
 const Dashboard = () => {
   return (
     <div className="w-screen lg:flex">
-      <div className="min-w-[20%]">
+      <div className="lg:min-w-[20%]">
         <Sidebar></Sidebar>
       </div>
-      <div className="mx-10 w-[75%]">
+      <div className="lg:mx-10 lg:w-[75%]">
         <Outlet></Outlet>
       </div>
     </div>

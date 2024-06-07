@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div>
       <Banner></Banner>
-      <div className="w-9/12 mx-auto my-20">
+      <div className="lg:w-9/12 mx-auto my-20">
         <Tags></Tags>
         <LatesPosts></LatesPosts>
       </div>

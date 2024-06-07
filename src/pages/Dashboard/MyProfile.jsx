@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import PostCard from "../../Components/PostCard";
+import MyPostCard from "../../Components/MyPostCard";
 
 const MyProfile = () => {
   const { user } = useAuth();
@@ -23,7 +23,7 @@ const MyProfile = () => {
   });
   return (
     <div>
-      <div className="max-w-2xl mx-auto mt-20 ">
+      <div className="lg:max-w-2xl mx-auto mt-20 ">
         <div className="flex flex-col justify-center  p-6 shadow-md rounded-xl sm:px-12 ">
           <img
             src={profile.image}
@@ -55,7 +55,7 @@ const MyProfile = () => {
         </div>
         <div className="">
           {posts.slice(0, 3).map((post, idx) => (
-            <PostCard key={idx} post={post}></PostCard>
+            <MyPostCard key={idx} post={post}></MyPostCard>
           ))}
         </div>
       </div>
