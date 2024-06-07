@@ -11,16 +11,17 @@ const LatesPosts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [params, setParams] = useSearchParams();
   const search = params.get("tag") || "";
+  const [sortText, setSortText] = useState("");
   const { data: posts = [], isLoading: postsLoading } = useQuery({
-    queryKey: ["posts", currentPage, itemsPerPage, search],
+    queryKey: ["posts", currentPage, itemsPerPage, search,sortText],
     queryFn: async () => {
       const { data } = await axiosPublic.get(
-        `/posts?page=${currentPage}&size=${itemsPerPage}&search=${search}`
+        `/posts?page=${currentPage}&size=${itemsPerPage}&search=${search}&sort=${sortText}`
       );
       return data;
     },
   });
-  console.log(search);
+  console.log(posts);
   const { data: postCount = {}, isLoading: countLoading } = useQuery({
     queryKey: ["counts", search],
     queryFn: async () => {
@@ -37,18 +38,32 @@ const LatesPosts = () => {
     console.log(value);
     setCurrentPage(value);
   };
+  const handleSorting = (sortValue) => {
+    setSortText(sortValue);
+  };
   if (postsLoading || countLoading) {
     <p>loading........</p>;
   }
+  console.log(sortText);
   return (
     <div>
       <div className="text-center">
         <h1 className="text-4xl font-semibold">Latest Posts</h1>
       </div>
-      <div className="my-10">
-        {posts.map((post, idx) => (
-          <PostCard key={idx} post={post}></PostCard>
-        ))}
+      <div>
+        <div className="text-center my-6">
+          <button
+            onClick={() => handleSorting("sort")}
+            className="bg-[#70e000] text-white px-6 py-3 rounded-md"
+          >
+            Sort by popularity
+          </button>
+        </div>
+        <div className="my-10">
+          {posts.map((post, idx) => (
+            <PostCard key={idx} post={post}></PostCard>
+          ))}
+        </div>
       </div>
       <div>
         <div className="flex justify-center my-5">
