@@ -24,17 +24,6 @@ const PostsDetails = () => {
     },
   });
 
-  //get comment by title
-  //   const { data: comments = [] ,isLoading:loading} = useQuery({
-  //     queryKey: ["comment",post.title],
-  //     queryFn: async () => {
-  //       const { data } = await axiosSecure.get(
-  //         `http://localhost:5000/comment/${post.title}`
-  //       );
-  //       return data;
-  //     },
-  //   });
-
   //save comment
   const { mutateAsync } = useMutation({
     mutationKey: ["comment"],
@@ -58,6 +47,7 @@ const PostsDetails = () => {
         comment,
       };
       await mutateAsync(commentData);
+      form.reset()
     } else {
       toast.error("Please Login to comment");
       navigate("/login");

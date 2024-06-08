@@ -38,7 +38,7 @@ const AuthProvider = ({ children }) => {
 
   const logOut = async () => {
     setLoading(true);
-    const { data } = await axios("http://localhost:5000/logout", {
+    const { data } = await axios("https://server-five-omega-98.vercel.app/logout", {
       withCredentials: true,
     });
     console.log(data);
@@ -54,7 +54,7 @@ const AuthProvider = ({ children }) => {
 
   const getToken = async (email) => {
     const { data } = await axios.post(
-      "http://localhost:5000/jwt",
+      "https://server-five-omega-98.vercel.app/jwt",
       { email },
       { withCredentials: true }
     );
@@ -73,7 +73,7 @@ const AuthProvider = ({ children }) => {
   //     };
   //     console.log(loggedUser);
   //     const { data } = await axios.post(
-  //       "http://localhost:5000/users",
+  //       "https://server-five-omega-98.vercel.app/users",
   //       loggedUser
   //     );
   //     return data;

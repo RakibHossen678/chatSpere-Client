@@ -4,16 +4,17 @@ import useAuth from "../../Hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Addpost = () => {
   const [member, setMember] = useState(true);
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const [selectedOption, setSelectedOption] = useState(null);
-  const { data: categories = [] ,isLoading} = useQuery({
+  const { data: categories = [], isLoading } = useQuery({
     queryKey: ["Admin"],
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/categories`);
@@ -21,12 +22,11 @@ const Addpost = () => {
     },
   });
   console.log(categories);
-  
+
   const options = categories.map((category) => ({
     value: category.category,
     label: category.category,
   }));
-  console.log(options);
   const { data: badge = {} } = useQuery({
     queryKey: ["badge"],
     queryFn: async () => {
@@ -36,7 +36,7 @@ const Addpost = () => {
       }
     },
   });
-  console.log(user.email);
+ 
   const userBadge = badge.badge?.badge;
   const postCount = badge?.postCount;
 
@@ -48,6 +48,7 @@ const Addpost = () => {
     },
     onSuccess: () => {
       toast.success("Post Added Successfully");
+      navigate("/dashboard/myPost");
     },
   });
 
@@ -72,15 +73,14 @@ const Addpost = () => {
       await mutateAsync(postData);
     }
   };
- 
+
   useEffect(() => {
     if (userBadge === "bronze" && postCount >= 5) {
       setMember(false);
     }
   }, [userBadge, postCount]);
-  console.log(member, userBadge, postCount);
-  if(isLoading){
-    <p>loading.........</p>
+  if (isLoading) {
+    <p>loading.........</p>;
   }
   return (
     <div>

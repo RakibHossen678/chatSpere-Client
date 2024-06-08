@@ -15,7 +15,7 @@ const Login = () => {
   const { mutateAsync } = useMutation({
     mutationFn: async (userInfo) => {
       const { data } = await axiosPublic.post(
-        "http://localhost:5000/users",
+        "https://server-five-omega-98.vercel.app/users",
         userInfo
       );
       console.log(data);
