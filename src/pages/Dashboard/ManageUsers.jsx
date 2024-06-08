@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
@@ -58,6 +59,9 @@ const ManageUsers = () => {
   console.log(search);
   return (
     <div>
+      <Helmet>
+        <title>ChatSphere || Manage Users </title>
+      </Helmet>
       <div className="text-center">
         <h1 className="text-4xl font-semibold py-9">Manage Users</h1>
       </div>
@@ -79,7 +83,7 @@ const ManageUsers = () => {
           </form>
         </div>
       </div>
-      <div className=" ">
+      <div className="">
         <div className="overflow-y-auto">
           <table className="table ">
             {/* head */}

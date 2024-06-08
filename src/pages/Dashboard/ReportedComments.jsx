@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const ReportedComments = () => {
   const axiosSecure = useAxiosSecure();
@@ -27,6 +28,9 @@ const ReportedComments = () => {
   };
   return (
     <div className="my-20">
+      <Helmet>
+        <title>ChatSphere || Reported Comments </title>
+      </Helmet>
       <div className="text-center">
         <h1 className="text-4xl font-semibold">Report Activities</h1>
       </div>

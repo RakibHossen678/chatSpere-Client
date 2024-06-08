@@ -7,6 +7,7 @@ import { GrDatabase } from "react-icons/gr";
 import { MdOutlineWorkspacePremium } from "react-icons/md";
 import PieChar from "../../Components/Dashboard/PieChar";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const AdminProfile = () => {
   const axiosSecure = useAxiosSecure();
@@ -44,6 +45,9 @@ const AdminProfile = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>ChatSphere || Admin Profile </title>
+      </Helmet>
       <div className=" mt-6">
         <div className="max-w-xl shadow-lg mx-auto p-8 sm:flex sm:space-x-6 ">
           <div className="flex-shrink-0 w-full mb-6 h-44 sm:h-32 sm:w-32 sm:mb-0">

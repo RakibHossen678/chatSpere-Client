@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import MyPostCard from "../../Components/MyPostCard";
+import { Helmet } from "react-helmet-async";
 
 const MyProfile = () => {
   const { user } = useAuth();
@@ -23,6 +24,9 @@ const MyProfile = () => {
   });
   return (
     <div>
+      <Helmet>
+        <title>ChatSphere || My Profile </title>
+      </Helmet>
       <div className="lg:max-w-2xl mx-auto mt-20 ">
         <div className="flex flex-col justify-center  p-6 shadow-md rounded-xl sm:px-12 ">
           <img

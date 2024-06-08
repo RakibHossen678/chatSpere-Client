@@ -6,6 +6,7 @@ import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { Helmet } from "react-helmet-async";
 
 const Register = () => {
   const { updateUserProfile, createUser, signInWithGoogle, setLoading } =
@@ -88,6 +89,9 @@ const Register = () => {
   };
   return (
     <div className="flex justify-center max-w-lg mx-auto items-center min-h-screen">
+      <Helmet>
+        <title>ChatSphere || Join Us </title>
+      </Helmet>
       <div className="flex flex-col w-full  p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-bold">Sign Up</h1>

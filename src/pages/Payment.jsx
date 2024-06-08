@@ -3,11 +3,15 @@ import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../Components/Checkout/CheckoutForm";
+import { Helmet } from "react-helmet-async";
 const Payment = () => {
   let [isOpen, setIsOpen] = useState(false);
   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
   return (
     <div className="mb-16 pt-20">
+      <Helmet>
+        <title>ChatSphere || Payment </title>
+      </Helmet>
       <section className="py-6 ">
         <div className="container mx-auto flex flex-col items-center justify-center max-w-3xl p-4   ">
           <div className="flex flex-col items-center justify-center flex-1 p-4 pb-8 w-full text-center rounded-md sm:p-8 lg:p-16 bg-green-200 text-gray-900">

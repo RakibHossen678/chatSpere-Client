@@ -3,6 +3,7 @@ import useAuth from "../../Hooks/useAuth";
 import { useMutation } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const Announcement = () => {
   const { user } = useAuth();
@@ -30,9 +31,12 @@ const Announcement = () => {
     await mutateAsync(announcementData);
     console.log(announcementData);
   };
-  
+
   return (
     <div className="w-7/12 mx-auto ">
+      <Helmet>
+        <title>ChatSphere || Announcement </title>
+      </Helmet>
       <div className="text-center">
         <h1 className="text-4xl mt-14 pb-6">Add Announcement</h1>
       </div>

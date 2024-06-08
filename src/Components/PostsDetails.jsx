@@ -6,6 +6,7 @@ import { BiDownvote, BiUpvote } from "react-icons/bi";
 import useAuth from "../Hooks/useAuth";
 import toast from "react-hot-toast";
 import Share from "./Share";
+import { Helmet } from "react-helmet-async";
 
 const PostsDetails = () => {
   const { user } = useAuth();
@@ -78,6 +79,9 @@ const PostsDetails = () => {
     );
   return (
     <div className="pt-28 lg:w-9/12 w-10/12 mx-auto mb-10">
+      <Helmet>
+        <title>ChatSphere || Post Details </title>
+      </Helmet>
       <div className="relative">
         <h1 className="flex items-center space-x-2">
           <Link

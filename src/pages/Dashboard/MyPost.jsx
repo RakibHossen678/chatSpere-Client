@@ -4,6 +4,7 @@ import useAuth from "../../Hooks/useAuth";
 import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const MyPost = () => {
   const { user } = useAuth();
@@ -47,6 +48,9 @@ const MyPost = () => {
   };
   return (
     <div className="my-10">
+      <Helmet>
+        <title>ChatSphere || My posts </title>
+      </Helmet>
       <div className="text-center text-3xl font-semibold my-7">
         <h1>My Post</h1>
       </div>

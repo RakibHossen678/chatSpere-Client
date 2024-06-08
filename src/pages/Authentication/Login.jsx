@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -61,6 +62,9 @@ const Login = () => {
   };
   return (
     <div className="flex justify-center items-center min-h-screen max-w-lg  mx-auto">
+      <Helmet>
+        <title>ChatSphere || Join Us </title>
+      </Helmet>
       <div className="flex w-full flex-col  p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-bold">Log In</h1>

@@ -6,6 +6,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const Addpost = () => {
   const [member, setMember] = useState(true);
@@ -84,6 +85,9 @@ const Addpost = () => {
   }
   return (
     <div>
+      <Helmet>
+        <title>ChatSphere || Add post </title>
+      </Helmet>
       {member ? (
         <div className="lg:py-40  py-10 ">
           <section className="max-w-4xl p-6  bg-white rounded-md shadow-md dark:bg-gray-800 ">
