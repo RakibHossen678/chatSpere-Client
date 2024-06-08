@@ -2,10 +2,10 @@
 
 - [ChatSphere](https://chatspher.web.app/)
 
--admin Data
--/*/*userName=Bhurhan Uddin Rakib
--/*/*userName=bhurhanuddinrakib@gmail.com
--/*/*password=1020304050
+# admin Data
+- /*/* userName=Bhurhan Uddin Rakib
+- /*/* userName=bhurhanuddinrakib@gmail.com
+- /*/* password=1020304050
 
 ## Features and Characteristics:
 
