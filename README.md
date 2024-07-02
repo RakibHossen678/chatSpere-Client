@@ -3,9 +3,11 @@
 - [ChatSphere](https://chatspher.web.app/)
 - [github-server](https://github.com/RakibHossen678/chatSphere-server)
 
-### Cloning the Repository
-First, clone the repository:
+#### Cloning and Running the Project
+1. **Clone the client repository and navigate to the directory:**
+```sh
 git clone https://github.com/RakibHossen678/chatSphere-client.git
+cd chatSphere-client
 
 # admin Data
 - /*/* userName=Bhurhan Uddin Rakib
