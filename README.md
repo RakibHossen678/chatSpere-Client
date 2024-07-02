@@ -39,7 +39,6 @@
 
 #### Cloning and Running the Project
 ```sh
-git clone https://github.com/RakibHossen678/chatSphere-client.git
-cd chatSphere-client
+git clone https://github.com/RakibHossen678/chatSpere-Client
 npm install
 npm run dev
