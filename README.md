@@ -4,7 +4,6 @@
 - [github-server](https://github.com/RakibHossen678/chatSphere-server)
 
 #### Cloning and Running the Project
-1. **Clone the client repository and navigate to the directory:**
 ```sh
 git clone https://github.com/RakibHossen678/chatSphere-client.git
 cd chatSphere-client
