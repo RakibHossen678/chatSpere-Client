@@ -3,10 +3,7 @@
 - [ChatSphere](https://chatspher.web.app/)
 - [github-server](https://github.com/RakibHossen678/chatSphere-server)
 
-#### Cloning and Running the Project
-```sh
-git clone https://github.com/RakibHossen678/chatSphere-client.git
-cd chatSphere-client
+
 
 # admin Data
 - /*/* userName=Bhurhan Uddin Rakib
@@ -39,3 +36,10 @@ cd chatSphere-client
 - [react-share](https://www.npmjs.com/package/react-share) uses to share post
 - [react-select](https://react-select.com/) uses for dropdown
 - [query-string](https://www.npmjs.com/package/query-string) uses for query
+
+#### Cloning and Running the Project
+```sh
+git clone https://github.com/RakibHossen678/chatSphere-client.git
+cd chatSphere-client
+npm install
+npm run dev
