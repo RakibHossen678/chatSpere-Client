@@ -48,7 +48,7 @@ const PostsDetails = () => {
         comment,
       };
       await mutateAsync(commentData);
-      form.reset()
+      form.reset();
     } else {
       toast.error("Please Login to comment");
       navigate("/login");
