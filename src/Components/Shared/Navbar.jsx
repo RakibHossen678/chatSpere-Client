@@ -85,12 +85,12 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal space-x-8 text-white">{navLinks}</ul>
+          <ul className=" menu-horizontal space-x-8 text-white">{navLinks}</ul>
         </div>
         <div className="navbar-end flex items-center gap-4">
           <Button onClick={open} className="relative">
             <IoMdNotificationsOutline className="text-white" size={28} />
-            <p className="absolute text-xs text-white bg-red-500 w-5 h-5 rounded-full flex items-center justify-center -top-1 right-0">
+            <p className="absolute text-xs text-white bg-[#70e000] w-6 h-6 rounded-full flex items-center justify-center -top-3 -right-2">
               {announcements.length}
             </p>
           </Button>
@@ -135,7 +135,7 @@ const Navbar = () => {
                       )}
                     </div>
                     <div className="text-right mt-4">
-                      <Button className="text-white bg-blue-600 px-4 py-2 rounded-md" onClick={close}>
+                      <Button className="text-white bg-[#70e000] px-4 py-2 rounded-md" onClick={close}>
                         Close
                       </Button>
                     </div>
