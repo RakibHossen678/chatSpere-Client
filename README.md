@@ -1,6 +1,9 @@
 # ChatSphere
 
 - [ChatSphere](https://chatspher.web.app/)
+- [github-server](https://github.com/RakibHossen678/chatSphere-server)
+
+
 
 # admin Data
 - /*/* userName=Bhurhan Uddin Rakib
@@ -33,3 +36,9 @@
 - [react-share](https://www.npmjs.com/package/react-share) uses to share post
 - [react-select](https://react-select.com/) uses for dropdown
 - [query-string](https://www.npmjs.com/package/query-string) uses for query
+
+#### Cloning and Running the Project
+```sh
+git clone https://github.com/RakibHossen678/chatSpere-Client
+npm install
+npm run dev
