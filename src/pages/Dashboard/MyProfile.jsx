@@ -61,7 +61,7 @@ const MyProfile = () => {
           {posts.length === 0 ? (
             <div className="text-center">
               <p className="text-lg text-gray-600 mb-4">
-                You haven't posted anything yet.
+                You haven{"'"}t posted anything yet.
               </p>
               <Link
                 to="/dashboard/addPost"

@@ -33,76 +33,69 @@ const Announcement = () => {
   };
 
   return (
-    <div className="w-7/12 mx-auto ">
+    <div className="w-11/12 md:w-8/12 lg:w-7/12 mx-auto p-6">
       <Helmet>
         <title>ChatSphere || Announcement </title>
       </Helmet>
-      <div className="text-center">
-        <h1 className="text-4xl mt-14 pb-6">Add Announcement</h1>
+      <div className="text-center mb-6">
+        <h1 className="text-3xl md:text-4xl font-semibold text-gray-800">Add Announcement</h1>
       </div>
-      <div>
-        <section className="max-w-5xl p-6 bg-white rounded-md shadow-md dark:bg-gray-800">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-              <div>
-                <label className="text-gray-700 dark:text-gray-200">
-                  Author Name
-                </label>
-                <input
-                  id="name"
-                  defaultValue={user?.displayName}
-                  type="text"
-                  {...register("name", { required: true })}
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-                />
-              </div>
-
-              <div>
-                <label className="text-gray-700 dark:text-gray-200">
-                  Author Image
-                </label>
-                <input
-                  id="image"
-                  type="text"
-                  defaultValue={user?.photoURL}
-                  {...register("image", { required: true })}
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-                />
-              </div>
-
-              <div>
-                <label className="text-gray-700 dark:text-gray-200">
-                  Title
-                </label>
-                <input
-                  id="title"
-                  type="text"
-                  {...register("title", { required: true })}
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-                />
-              </div>
-
-              <div>
-                <label className="text-gray-700 dark:text-gray-200">
-                  Description
-                </label>
-                <input
-                  id="description"
-                  type="text"
-                  {...register("description", { required: true })}
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-                />
-              </div>
+      <section className="bg-white shadow-lg rounded-lg p-6 md:p-8">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">Author Name</label>
+              <input
+                id="name"
+                defaultValue={user?.displayName}
+                type="text"
+                {...register("name", { required: true })}
+                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+              />
             </div>
 
-            <div className="flex justify-center mt-6">
-              <button className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-green-500 rounded-md focus:outline-none ">
-                Make Announcement
-              </button>
+            <div>
+              <label htmlFor="image" className="block text-sm font-medium text-gray-700">Author Image URL</label>
+              <input
+                id="image"
+                type="text"
+                defaultValue={user?.photoURL}
+                {...register("image", { required: true })}
+                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+              />
             </div>
-          </form>
-        </section>
-      </div>
+
+            <div>
+              <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
+              <input
+                id="title"
+                type="text"
+                {...register("title", { required: true })}
+                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+              <input
+                id="description"
+                type="text"
+                {...register("description", { required: true })}
+                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-center mt-6">
+            <button
+              type="submit"
+              className="px-6 py-2.5 text-white bg-green-500 rounded-md shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200"
+            >
+              Make Announcement
+            </button>
+          </div>
+        </form>
+      </section>
     </div>
   );
 };
