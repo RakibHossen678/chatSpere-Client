@@ -12,24 +12,32 @@ const MyPost = () => {
     queryKey: ["posts"],
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/posts/${user?.email}`);
-      console.log(data);
       return data;
     },
   });
+
   const { mutateAsync } = useMutation({
     mutationFn: async (id) => {
       const { data } = await axiosSecure.delete(`/post/delete/${id}`);
-      console.log(data);
+      return data;
     },
     onSuccess: () => {
       Swal.fire({
         title: "Deleted!",
-        text: "Your file has been deleted.",
+        text: "Your post has been deleted.",
         icon: "success",
       });
       refetch();
     },
+    onError: () => {
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to delete the post.",
+        icon: "error",
+      });
+    },
   });
+
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -41,56 +49,69 @@ const MyPost = () => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        console.log(id);
         await mutateAsync(id);
       }
     });
   };
+
   return (
     <div className="my-10">
       <Helmet>
-        <title>ChatSphere || My posts </title>
+        <title>ChatSphere || My Posts</title>
       </Helmet>
       <div className="text-center text-3xl font-semibold my-7">
-        <h1>My Post</h1>
+        <h1>My Posts</h1>
       </div>
-      <div className=" ">
-        <div className="overflow-x-auto">
-          <table className="table">
-            {/* head */}
-            <thead>
-              <tr>
-                <th></th>
-                <th>Post Title</th>
-                <th>Votes</th>
-                <th>Comments</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {posts.map((post, idx) => (
-                <tr key={idx} className="">
-                  <th>{idx + 1}</th>
-                  <td>{post.title}</td>
-                  <td>{post.upVote - post.downVote}</td>
-                  <td>
-                    <Link to={`/comments/${post._id}`} className="bg-[#1af041] px-3 py-1 rounded-md text-white">
-                      Comment
-                    </Link>
-                  </td>
-                  <td className=" ">
-                    <button onClick={() => handleDelete(post._id)}>
-                      <MdDeleteForever
-                        className="ml-3 text-red-500"
-                        size={24}
-                      />
-                    </button>
-                  </td>
+      <div className=" p-6 rounded-lg ">
+        {posts.length === 0 ? (
+          <div className="text-center text-gray-600">
+            <p className="text-xl">You have no posts yet.</p>
+            <Link to="/dashboard/addPost">
+              <button className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+                Create a Post
+              </button>
+            </Link>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+              <thead>
+                <tr className="bg-gray-200 border-b">
+                  <th className="px-4 py-2 text-left">#</th>
+                  <th className="px-4 py-2 text-left">Post Title</th>
+                  <th className="px-4 py-2 text-left">Votes</th>
+                  <th className="px-4 py-2 text-left">Comments</th>
+                  <th className="px-4 py-2 text-left">Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {posts.map((post, idx) => (
+                  <tr key={post._id} className="border-b hover:bg-gray-50">
+                    <td className="px-4 py-2">{idx + 1}</td>
+                    <td className="px-4 py-2">{post.title}</td>
+                    <td className="px-4 py-2">{post.upVote - post.downVote}</td>
+                    <td className="px-4 py-2">
+                      <Link
+                        to={`/comments/${post._id}`}
+                        className="bg-green-500 px-3 py-1 rounded-md text-white hover:bg-green-600"
+                      >
+                        Comment
+                      </Link>
+                    </td>
+                    <td className="px-4 py-2 text-center">
+                      <button
+                        onClick={() => handleDelete(post._id)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <MdDeleteForever size={24} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );
